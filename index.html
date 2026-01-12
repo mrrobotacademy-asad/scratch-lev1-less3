@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Robot Academy - التحدي الذكي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #00cec9;
+            --correct: #2ed573;
+            --wrong: #ff4757;
+            --warning: #f1c40f;
+            --bg: #0f0c29;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --radius: 15px;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at center, #1e1b4b, #0f0c29);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .header { text-align: center; padding: 25px; width: 100%; }
+        
+        .logo-img { 
+            width: 220px; 
+            height: auto; 
+            max-height: 100px;
+            object-fit: contain;
+            border: 3px solid var(--secondary);
+            border-radius: 10px;
+            padding: 5px;
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 0 20px rgba(0,206,201,0.3);
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 25px;
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        /* --- تحسين قسم الشرح التفاعلي --- */
+        .explanation-slider {
+            position: relative;
+            background: rgba(0,0,0,0.3);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 5px solid var(--primary);
+            transition: 0.3s;
+        }
+
+        .explanation-card h3 { color: var(--secondary); margin-top: 0; font-size: 1.6rem; }
+        
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .nav-btn:disabled { background: #444; cursor: not-allowed; }
+
+        /* --- بقية العناصر --- */
+        .code-block {
+            background: #1e1e1e;
+            color: #58D68D;
+            padding: 15px;
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .status-bar {
+            display: flex; justify-content: space-between; background: rgba(0,0,0,0.4);
+            padding: 15px; border-radius: var(--radius); margin-bottom: 20px; font-weight: bold;
+        }
+
+        .code-display {
+            background: #000; padding: 25px; border-radius: var(--radius); font-family: 'Fira Code', monospace;
+            direction: ltr; text-align: left; border-left: 5px solid var(--primary); margin-bottom: 20px; font-size: 1.4rem;
+        }
+
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .option-btn {
+            background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1);
+            padding: 18px; color: white; cursor: pointer; border-radius: var(--radius); transition: 0.3s;
+            font-size: 1.1rem; font-family: 'Cairo';
+        }
+        .option-btn:hover { background: var(--primary); transform: scale(1.02); }
+        .option-btn.selected { background: var(--primary); border-color: white; }
+
+        .btn-main {
+            background: linear-gradient(to right, var(--primary), #8e44ad);
+            color: white; border: none; padding: 18px 40px;
+            cursor: pointer; font-weight: 900; border-radius: 50px; font-size: 1.3rem;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .hidden { display: none !important; }
+        input[type="text"] {
+            width: 80%; padding: 15px; background: rgba(0,0,0,0.3); border: 2px solid var(--primary); color: white; border-radius: var(--radius); text-align: center; font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="logo.png" alt="Mr Robot Logo" class="logo-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/220x80/6c5ce7/ffffff?text=MY+LOGO';">
+    <h1 style="margin:15px 0; font-size: 2.2rem;">Mr Robot Academy</h1><br><h6 style="margin:2px 0; font-size: 1.2rem;">مهندس/ أندرو مجدي -  Phone: 01285529570   </h6>
+</div>
+
+<div class="container">
+    <div id="start-screen">
+        <h2 style="color:var(--warning);">🚀 رحلة تعلم بايثون الممتعة</h2>
+        
+        <div class="explanation-slider">
+            <div id="slide-content">
+                </div>
+            <div class="slider-nav">
+                <button class="nav-btn" onclick="moveSlide(-1)" id="prevSlide">السابق</button>
+                <span id="slide-num" style="align-self:center; font-weight:bold;">1 / 15</span>
+                <button class="nav-btn" onclick="moveSlide(1)" id="nextSlide">التالي</button>
+            </div>
+        </div>
+
+        <div style="margin: 30px 0;">
+            <input type="text" id="username" placeholder="اكتب اسمك يا بطل هنا...">
+        </div>
+        
+        <button class="btn-main" onclick="initQuiz()">ابدأ تحدي الـ 20 سؤال 🎯</button>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+        <div class="status-bar">
+            <div>⏰ <span id="timer-val">00:00</span></div>
+            <div id="progress-text" style="color:var(--secondary)">السؤال 1 / 20</div>
+            <div>⭐ <span id="score-val">0</span></div>
+        </div>
+        
+        <div class="question-zone">
+            <h3 id="q-text" style="font-size: 1.4rem;"></h3>
+            <div class="code-display" id="q-code"></div>
+            
+            <div id="options-container" class="options-grid"></div>
+            
+            <div id="input-container" class="hidden">
+                <input type="text" id="user-code-input" placeholder="اكتب إجابتك هنا...">
+            </div>
+
+            <div id="hint-box" style="margin-top:20px; display:none; color:var(--warning); background:rgba(0,0,0,0.3); padding:10px; border-radius:10px;">
+                💡 تلميحة: <span id="hint-text"></span>
+            </div>
+
+            <div class="control-group">
+                <button class="option-btn" style="background:#555; padding: 10px 20px;" onclick="navigate(-1)" id="prev-btn">⬅️ السابق</button>
+                <button class="option-btn" style="background:var(--warning); color:#000; padding: 10px 20px;" onclick="skipQuestion()">⏭️ تخطي</button>
+                <button class="option-btn" style="background:var(--wrong); padding: 10px 20px;" onclick="revealAnswer()">🔑 إجابة</button>
+                <button class="btn-main" style="flex-grow:1;" onclick="handleStep()">التحقق من الإجابة ✅</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <h1 style="font-size: 4rem;">🏆</h1>
+        <h2 id="congrats-msg">ممتاز!</h2>
+        <p id="final-stats" style="font-size:1.5rem"></p>
+        <button class="btn-main" onclick="location.reload()">جولة جديدة 🔄</button>
+    </div>
+</div>
+
+<script>
+   // مصفوفة الشرح - 15 نقطة مبسطة لدرس سكراتش
+const detailedExplanation = [
+    {
+        title: "العلم الأخضر.. زرار البداية 🚩",
+        code: "When Green Flag Clicked",
+        desc: "ده أهم زرار في سكراتش، أول ما بندوس عليه بنقول للكود 'اصحى يا بطل وابدأ الشغل'. من غيره الكائن هيفضل واقف مكانه مش فاهم المفروض يعمل إيه."
+    },
+    {
+        title: "حلقة Forever.. الدوامة اللي مابتخلصش 🔄",
+        code: "Forever",
+        desc: "دي حلقة سحرية، أي حاجة بنحطها جواها بتفضل تتكرر للأبد لحد ما إحنا نوقف البرنامج بنفسنا. بنستخدمها لما نكون عايزين الكائن يفضل يعمل حاجة طول الوقت."
+    },
+    {
+        title: "القفز لأماكن عشوائية 🎲",
+        code: "Go to x: pick random",
+        desc: "هنا بنقول للكائن 'غمض عينك ونط في أي حتة'. سكراتش بيختار رقم حظ (Random) بين -200 و 300، ويخلي الكائن يروح هناك فجأة، وده بيخلي اللعبة فيها مفاجآت."
+    },
+    {
+        title: "محور X.. السكة اليمين والشمال 🛤️",
+        code: "X axis",
+        desc: "محور X ده هو الطريق العرضي، لما الرقم يزيد الكائن يمشي يمين، ولما يقل يمشي شمال. ده اللي بيحدد مكان الكائن بالعرض في الشاشة."
+    },
+    {
+        title: "محور Y.. السلم اللي بيطلع وينزل 🪜",
+        code: "Y axis",
+        desc: "محور Y هو الطريق الطولي، لو عايز الكائن يطلع فوق نزود الرقم، ولو عايز ينزل تحت نقلله. في الكود بتاعنا هو ثابت عند 179 يعني الكائن فوق خالص."
+    },
+    {
+        title: "التكرار المحدد Repeat.. عد على صوابعك 🔢",
+        code: "Repeat (50)",
+        desc: "دي عكس Forever، هنا بنحدد عدد مرات معين. الكائن هيعمل الحركة 50 مرة بالظبط وبعدين يوقف، كأنك بتقول له 'نط 50 نطة بس'."
+    },
+    {
+        title: "أمر Move.. الخطوة لقدام 🐾",
+        code: "Move 10 steps",
+        desc: "ده بيخلي الكائن يتحرك لقدام مسافة 10 خطوات صغيرة. لو الرقم موجب بيمشي لوشه، ولو خليناه سالب بيمشي لضهره (بيرجع لورا)."
+    },
+    {
+        title: "التحكم بالأسهم.. أنت السواق 🎮",
+        code: "When right/left arrow key pressed",
+        desc: "دي حاجة ممتعة جداً، بنربط الكيبورد بالبرنامج. أول ما تدوس على السهم اليمين الكائن يتحرك يمين، كأنك ماسك دراع بلايستيشن وبتلعب بيه."
+    },
+    {
+        title: "السهم اليمين.. الحركة الموجبة ➡️",
+        code: "Right Arrow -> Move 10",
+        desc: "لما بندوس سهم يمين، الكائن بياخد 10 خطوات ناحية اليمين (رقم موجب) عشان يتقدم في الطريق."
+    },
+    {
+        title: "السهم الشمال.. الرجوع لورا ⬅️",
+        code: "Left Arrow -> Move -10",
+        desc: "هنا بقى اللعبة، لما ندوس سهم شمال بنكتب الرقم بالسالب (-10) عشان الكائن يرجع لورا أو يمشي ناحية الشمال."
+    },
+    {
+        title: "البلوكات بتركب زي المكعبات 🧱",
+        code: "Stacking Blocks",
+        desc: "لاحظ إننا بنركب البلوكات فوق بعضها بالترتيب. البرنامج بيفهم الكود من فوق لتحت، يعني ينفذ أول بلوك وبعدين اللي تحته بالظبط."
+    },
+    {
+        title: "الألوان بتساعدنا 🌈",
+        code: "Color Categories",
+        desc: "الأزرق دايمًا حركة (Motion)، والأصفر أحداث (Events)، والبرتقالي تحكم (Control). الألوان دي بتخلينا نعرف مكان البلوك من غير ما نتعب."
+    },
+    {
+        title: "المنصة Stage.. مسرح الأحداث 🎭",
+        code: "Stage",
+        desc: "دي الشاشة البيضاء الكبيرة اللي الكائن بيتنطط فيها. إحنا بنرسم الكود هنا، والنتيجة بتبان هناك."
+    },
+    {
+        title: "تحديد الاتجاه Direction 🧭",
+        code: "Direction",
+        desc: "في دايرة صغيرة في سكراتش بتحدد الكائن باصص فين. لو باصص يمين هيمشي يمين، ولو لفينا السهم هيمشي في الاتجاه الجديد."
+    },
+    {
+        title: "ليه بنبرمج؟ 💡",
+        code: "Thinking",
+        desc: "البرمجة مش بس كود، دي طريقة تفكير. إحنا بنرتب خطواتنا عشان نوصل لنتيجة، زي ما بنرتب يومنا بالظبط."
+    }
+];
+const questions = [
+    { type: 'select', q: 'لو دوسنا سهم يمين، الكائن هيمشي كم خطوة؟', options: ['5 خطوات', '10 خطوات', '20 خطوة'], ans: '10 خطوات', hint: 'بص على الرقم اللي جنب كلمة Move' },
+    { type: 'input', q: 'إيه هو اللون بتاع بلوك الحركة Move؟', ans: 'أزرق', hint: 'زي لون السما' },
+    { type: 'select', q: 'أمر Forever بيخلي الكائن يكرر الحركة كام مرة؟', options: ['10 مرات', 'للأبد من غير توقف', 'مرة واحدة بس'], ans: 'للأبد من غير توقف', hint: 'كلمة Forever يعني طول العمر' },
+    { type: 'input', q: 'إيه هو الزرار اللي بنشغل بيه كل الكود؟', ans: 'العلم الأخضر', hint: 'لونه أخضر زي الشجر' },
+    { type: 'select', q: 'لما نستخدم "pick random"، الكائن بيروح فين؟', options: ['مكان ثابت', 'مكان عشوائي متغير', 'بيفضل مكانه'], ans: 'مكان عشوائي متغير', hint: 'Random يعني حظ أو عشوائي' },
+    { type: 'input', q: 'لو الرقم في Move هو -10، الكائن هيمشي يمين ولا شمال؟', ans: 'شمال', hint: 'السالب بيرجع لورا' },
+    { type: 'select', q: 'أمر Repeat 50 بيوقف الحركة بعد كام مرة؟', options: ['50 مرة', '100 مرة', 'مش بيوقف خالص'], ans: '50 مرة', hint: 'الرقم مكتوب جوا الدايرة' },
+    { type: 'input', q: 'محور X بيحرك الكائن يمين وشمال، طيب محور Y بيحركه فين؟', ans: 'فوق وتحت', hint: 'فكر في السلم' },
+    { type: 'select', q: 'البلوكات الصفراء زي "When clicked" بنسميها بلوكات إيه؟', options: ['حركة', 'أحداث (Events)', 'ألوان'], ans: 'أحداث (Events)', hint: 'هي اللي بتبدأ الحدث' },
+    { type: 'input', q: 'إيه الكلمة اللي بنستخدمها عشان نربط الكيبورد بالحركة؟', ans: 'key pressed', hint: 'يعني ضغط على المفتاح' },
+    { type: 'select', q: 'لو حطينا Move 10 برا حلقة Forever، هيتحرك كام مرة؟', options: ['مرة واحدة', '10 مرات', 'للأبد'], ans: 'مرة واحدة', hint: 'اللي برا الـ Forever مش بيتكرر' },
+    { type: 'input', q: 'لو عايز الكائن يمشي ببطء، أخلي رقم الخطوات كبير ولا صغير؟', ans: 'صغير', hint: 'الخطوة الصغيرة بتاخد وقت أطول' },
+    { type: 'select', q: 'كلمة Go to x: -200 معناها إيه؟', options: ['روح أقصى اليمين', 'روح أقصى الشمال', 'اطلع فوق خالص'], ans: 'روح أقصى الشمال', hint: 'الأرقام السالبة في X ناحية الشمال' },
+    { type: 'input', q: 'إيه اسم المنطقة اللي بنحط فيها الكود فوق بعضه؟', ans: 'منطقة البرمجة', hint: 'المكان اللي بنبني فيه المكعبات' },
+    { type: 'select', q: 'لو شيلنا أمر Forever، هل اللعبة هتفضل شغالة لوحدها؟', options: ['لأ، هتشتغل مرة وتقف', 'أيوة، هتفضل شغالة'], ans: 'لأ، هتشتغل مرة وتقف', hint: 'Forever هي اللي بتخليها تستمر' },
+    { type: 'input', q: 'إيه هو رقم محور Y الثابت في الكود بتاعنا؟', ans: '179', hint: 'بص على الرقم اللي جنب حرف الـ y' },
+    { type: 'select', q: 'أمر Move -10 موجود تحت أي سهم؟', options: ['السهم اليمين', 'السهم الشمال', 'السهم اللي فوق'], ans: 'السهم الشمال', hint: 'بص على بلوك السهم في الصورة' },
+    { type: 'input', q: 'إيه اللون بتاع حلقة Forever و Repeat؟', ans: 'برتقالي', hint: 'لون البرتقالة' },
+    { type: 'select', q: 'سكراتش بيقرأ الكود منين لفين؟', options: ['من تحت لفوق', 'من فوق لتحت', 'من النص'], ans: 'من فوق لتحت', hint: 'زي ما بنقرأ الكتاب' },
+    { type: 'input', q: 'لو غيرنا Repeat 50 وخليناها 5، الحركة هتبقى أطول ولا أقصر؟', ans: 'أقصر', hint: 'العدد القليل بيخلص بسرعة' }
+];
+    let currentSlide = 0;
+    let currentQ = 0, score = 0, seconds = 0, timer;
+
+    // وظائف السلايدر
+    function showSlide() {
+        const item = detailedExplanation[currentSlide];
+        document.getElementById('slide-content').innerHTML = `
+            <div class="explanation-card">
+                <h3>${item.title}</h3>
+                <div class="code-block">${item.code}</div>
+                <p>${item.desc}</p>
+            </div>
+        `;
+        document.getElementById('slide-num').innerText = `${currentSlide + 1} / 15`;
+        document.getElementById('prevSlide').disabled = currentSlide === 0;
+        document.getElementById('nextSlide').disabled = currentSlide === 14;
+    }
+
+    function moveSlide(dir) {
+        currentSlide += dir;
+        showSlide();
+    }
+
+    window.onload = showSlide;
+
+    // وظائف الاختبار
+    function initQuiz() {
+        if(!document.getElementById('username').value.trim()) return alert("اكتب اسمك يا بطل أولاً!");
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        loadQuestion();
+        timer = setInterval(() => {
+            seconds++;
+            let m = Math.floor(seconds/60), s = seconds%60;
+            document.getElementById('timer-val').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        const q = questions[currentQ];
+        document.getElementById('progress-text').innerText = `السؤال ${currentQ + 1} / 20`;
+        document.getElementById('q-text').innerText = q.q;
+        document.getElementById('q-code').innerText = q.code;
+        document.getElementById('hint-box').style.display = 'none';
+        
+        if(q.type === 'select') {
+            document.getElementById('options-container').classList.remove('hidden');
+            document.getElementById('input-container').classList.add('hidden');
+            document.getElementById('options-container').innerHTML = '';
+            q.options.forEach(opt => {
+                const b = document.createElement('button');
+                b.className = 'option-btn' + (q.userAns === opt ? ' selected' : '');
+                b.innerText = opt;
+                b.onclick = () => {
+                    document.querySelectorAll('.option-btn').forEach(x => x.classList.remove('selected'));
+                    b.classList.add('selected');
+                    q.userAns = opt;
+                };
+                document.getElementById('options-container').appendChild(b);
+            });
+        } else {
+            document.getElementById('options-container').classList.add('hidden');
+            document.getElementById('input-container').classList.remove('hidden');
+            document.getElementById('user-code-input').value = q.userAns || '';
+        }
+    }
+
+    function handleStep() {
+        const q = questions[currentQ];
+        const val = q.type === 'select' ? q.userAns : document.getElementById('user-code-input').value.trim();
+        if(!val) return alert("جاوب أولاً يا بطل!");
+
+        if(val.toString().toLowerCase() === q.ans.toLowerCase()) {
+            if(!q.done) { score += 10; q.done = true; document.getElementById('score-val').innerText = score; }
+            if(currentQ < 19) { currentQ++; loadQuestion(); } else { finishQuiz(); }
+        } else {
+            document.getElementById('hint-box').style.display = 'block';
+            document.getElementById('hint-text').innerText = q.hint;
+        }
+    }
+
+    function navigate(dir) {
+        if(currentQ + dir >= 0 && currentQ + dir < questions.length) {
+            currentQ += dir;
+            loadQuestion();
+        }
+    }
+
+    function skipQuestion() {
+        if(currentQ < 19) {
+            currentQ++;
+            loadQuestion();
+        } else {
+            finishQuiz();
+        }
+    }
+
+    function revealAnswer() {
+        if(confirm("سيتم خصم 10 نقاط لإظهار الحل، هل أنت موافق؟")) {
+            score -= 10;
+            document.getElementById('score-val').innerText = score;
+            alert("الإجابة الصحيحة هي: " + questions[currentQ].ans);
+        }
+    }
+
+    function finishQuiz() {
+        clearInterval(timer);
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('congrats-msg').innerText = `عمل رائع يا ${document.getElementById('username').value}! 👑`;
+        document.getElementById('final-stats').innerText = `لقد جمعت ${score} نقطة في زمن ${Math.floor(seconds/60)} دقيقة`;
+    }
+</script>
+</body>
+</html>
