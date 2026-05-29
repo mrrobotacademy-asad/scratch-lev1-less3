@@ -71,7 +71,9 @@
             transition: 0.3s;
         }
 
-        .explanation-card h3 { color: var(--secondary); margin-top: 0; font-size: 1.6rem; }
+       .explanation-card h3 { color: var(--secondary); margin-top: 0; font-size: 1.6rem; }
+        .example-text { color: var(--warning); margin-top: 10px; font-size: 1rem; font-style: italic; }
+        
         
         .slider-nav {
             display: flex;
@@ -144,7 +146,18 @@
         input[type="text"] {
             width: 80%; padding: 15px; background: rgba(0,0,0,0.3); border: 2px solid var(--primary); color: white; border-radius: var(--radius); text-align: center; font-size: 1.2rem;
         }
-    </style>
+    
+
+.slide-image{
+width:100%;
+max-height:220px;
+object-fit:contain;
+border-radius:15px;
+margin-bottom:15px;
+border:2px solid rgba(255,255,255,0.1);
+background:#111;
+}
+</style>
 </head>
 <body>
 
@@ -218,78 +231,93 @@ const detailedExplanation = [
     {
         title: "العلم الأخضر.. زرار البداية 🚩",
         code: "When Green Flag Clicked",
+        image: "Images/When-Green-Flag-Clicked.png",
         desc: "ده أهم زرار في سكراتش، أول ما بندوس عليه بنقول للكود 'اصحى يا بطل وابدأ الشغل'. من غيره الكائن هيفضل واقف مكانه مش فاهم المفروض يعمل إيه."
     },
     {
         title: "حلقة Forever.. الدوامة اللي مابتخلصش 🔄",
         code: "Forever",
+        image: "Images/Forever.png",
         desc: "دي حلقة سحرية، أي حاجة بنحطها جواها بتفضل تتكرر للأبد لحد ما إحنا نوقف البرنامج بنفسنا. بنستخدمها لما نكون عايزين الكائن يفضل يعمل حاجة طول الوقت."
     },
     {
         title: "القفز لأماكن عشوائية 🎲",
         code: "Go to x: pick random",
+        image: "Images/Go-to-x-pick-random.png",
         desc: "هنا بنقول للكائن 'غمض عينك ونط في أي حتة'. سكراتش بيختار رقم حظ (Random) بين -200 و 300، ويخلي الكائن يروح هناك فجأة، وده بيخلي اللعبة فيها مفاجآت."
     },
     {
         title: "محور X.. السكة اليمين والشمال 🛤️",
         code: "X axis",
+        image: "Images/X-axis.png",
         desc: "محور X ده هو الطريق العرضي، لما الرقم يزيد الكائن يمشي يمين، ولما يقل يمشي شمال. ده اللي بيحدد مكان الكائن بالعرض في الشاشة."
     },
     {
         title: "محور Y.. السلم اللي بيطلع وينزل 🪜",
         code: "Y axis",
+        image: "Images/Y-axis.png",
         desc: "محور Y هو الطريق الطولي، لو عايز الكائن يطلع فوق نزود الرقم، ولو عايز ينزل تحت نقلله. في الكود بتاعنا هو ثابت عند 179 يعني الكائن فوق خالص."
     },
     {
         title: "التكرار المحدد Repeat.. عد على صوابعك 🔢",
         code: "Repeat (50)",
+        image: "Images/Repeat-50.png",
         desc: "دي عكس Forever، هنا بنحدد عدد مرات معين. الكائن هيعمل الحركة 50 مرة بالظبط وبعدين يوقف، كأنك بتقول له 'نط 50 نطة بس'."
     },
     {
         title: "أمر Move.. الخطوة لقدام 🐾",
         code: "Move 10 steps",
+        image: "Images/Move-10-steps.png",
         desc: "ده بيخلي الكائن يتحرك لقدام مسافة 10 خطوات صغيرة. لو الرقم موجب بيمشي لوشه، ولو خليناه سالب بيمشي لضهره (بيرجع لورا)."
     },
     {
         title: "التحكم بالأسهم.. أنت السواق 🎮",
         code: "When right/left arrow key pressed",
+        image: "Images/When-right-left-arrow-key-pressed.png",
         desc: "دي حاجة ممتعة جداً، بنربط الكيبورد بالبرنامج. أول ما تدوس على السهم اليمين الكائن يتحرك يمين، كأنك ماسك دراع بلايستيشن وبتلعب بيه."
     },
     {
         title: "السهم اليمين.. الحركة الموجبة ➡️",
         code: "Right Arrow -> Move 10",
+        image: "Images/Right-Arrow-Move-10.png",
         desc: "لما بندوس سهم يمين، الكائن بياخد 10 خطوات ناحية اليمين (رقم موجب) عشان يتقدم في الطريق."
     },
     {
         title: "السهم الشمال.. الرجوع لورا ⬅️",
         code: "Left Arrow -> Move -10",
+        image: "Images/Left-Arrow-Move-10.png",
         desc: "هنا بقى اللعبة، لما ندوس سهم شمال بنكتب الرقم بالسالب (-10) عشان الكائن يرجع لورا أو يمشي ناحية الشمال."
     },
     {
         title: "البلوكات بتركب زي المكعبات 🧱",
         code: "Stacking Blocks",
+        image: "Images/Stacking-Blocks.png",
         desc: "لاحظ إننا بنركب البلوكات فوق بعضها بالترتيب. البرنامج بيفهم الكود من فوق لتحت، يعني ينفذ أول بلوك وبعدين اللي تحته بالظبط."
     },
     {
         title: "الألوان بتساعدنا 🌈",
         code: "Color Categories",
+        image: "Images/Color-Categories.png",
         desc: "الأزرق دايمًا حركة (Motion)، والأصفر أحداث (Events)، والبرتقالي تحكم (Control). الألوان دي بتخلينا نعرف مكان البلوك من غير ما نتعب."
     },
     {
         title: "المنصة Stage.. مسرح الأحداث 🎭",
         code: "Stage",
+        image: "Images/Stage.png",
         desc: "دي الشاشة البيضاء الكبيرة اللي الكائن بيتنطط فيها. إحنا بنرسم الكود هنا، والنتيجة بتبان هناك."
     },
     {
         title: "تحديد الاتجاه Direction 🧭",
         code: "Direction",
+        image: "Images/Direction.png",
         desc: "في دايرة صغيرة في سكراتش بتحدد الكائن باصص فين. لو باصص يمين هيمشي يمين، ولو لفينا السهم هيمشي في الاتجاه الجديد."
     },
-    {
-        title: "ليه بنبرمج؟ 💡",
-        code: "Thinking",
-        desc: "البرمجة مش بس كود، دي طريقة تفكير. إحنا بنرتب خطواتنا عشان نوصل لنتيجة، زي ما بنرتب يومنا بالظبط."
-    }
+ 
+	{ title: " الكود الكامل 🧱", code: "الكل",
+        image: "Images/lesson3-1.jpeg", desc: "النتيجة النهائية", example: "كود السلة تتحرك يمين و شمال باسهم الكيبورد" },
+		 { title: " الكود الكامل 🧱", code: "الكل",
+        image: "Images/lesson3-2.jpeg", desc: "النتيجة النهائية", example: "التفاحة بتنزل من اعلى نقطة فى الشاشةو تتعاد الى ما لا نهاية" }
+	
 ];
 const questions = [
     { type: 'select', q: 'لو دوسنا سهم يمين، الكائن هيمشي كم خطوة؟', options: ['5 خطوات', '10 خطوات', '20 خطوة'], ans: '10 خطوات', hint: 'بص على الرقم اللي جنب كلمة Move' },
@@ -322,13 +350,18 @@ const questions = [
         document.getElementById('slide-content').innerHTML = `
             <div class="explanation-card">
                 <h3>${item.title}</h3>
+                <img src="${item.image}"
+                  alt="${item.title}"
+                  class="slide-image"
+                  onerror="this.style.display='none'">
                 <div class="code-block">${item.code}</div>
                 <p>${item.desc}</p>
+			
             </div>
         `;
-        document.getElementById('slide-num').innerText = `${currentSlide + 1} / 15`;
+        document.getElementById('slide-num').innerText = `${currentSlide + 1} / 16`;
         document.getElementById('prevSlide').disabled = currentSlide === 0;
-        document.getElementById('nextSlide').disabled = currentSlide === 14;
+        document.getElementById('nextSlide').disabled = currentSlide === 15;
     }
 
     function moveSlide(dir) {
@@ -428,3 +461,4 @@ const questions = [
 </script>
 </body>
 </html>
+
